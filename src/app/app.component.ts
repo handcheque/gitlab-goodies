@@ -61,6 +61,15 @@ export class AppComponent implements OnInit {
     }});
   }
 
+  public login() {
+    this.oauthService.initImplicitFlow();
+  }
+
+  public logoff() {
+    this.oauthService.logOut();
+  }
+
+
 
   public ngOnInit() {
     console.log('Initial App State', this.appState.state);

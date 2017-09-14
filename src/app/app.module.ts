@@ -30,19 +30,22 @@ import { AppComponent } from './app.component';
 import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 import { AppState, InternalStateType } from './app.service';
 import { HomeComponent } from './home';
+import { HomeResolver } from './home/home.resolver.service';
 import { AboutComponent } from './about';
 import { NoContentComponent } from './no-content';
-import { XLargeDirective } from './home/x-large';
+
+import { GitlabService } from './services/gitlab.service';
 
 import { OAuthModule } from 'angular-oauth2-oidc';
 
 import '../styles/styles.scss';
-import '../styles/headings.css';
 
 // Application wide providers
 const APP_PROVIDERS = [
   ...APP_RESOLVER_PROVIDERS,
-  AppState
+  AppState,
+  GitlabService,
+  HomeResolver
 ];
 
 type StoreType = {
@@ -61,7 +64,6 @@ type StoreType = {
     AboutComponent,
     HomeComponent,
     NoContentComponent,
-    XLargeDirective
   ],
   /**
    * Import Angular's modules.

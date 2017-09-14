@@ -3,12 +3,9 @@ import {
   OnInit
 } from '@angular/core';
 
-import { OAuthService } from 'angular-oauth2-oidc';
-import { HttpHeaders, HttpClient } from '@angular/common/http';
 
 import { AppState } from '../app.service';
 import { Title } from './title';
-import { XLargeDirective } from './x-large';
 
 @Component({
   /**
@@ -38,40 +35,17 @@ export class HomeComponent implements OnInit {
    * Set our default values
    */
   public localState = { value: '' };
-  public url = 'https://gitlab.handcheque-hq.com/api/v4';
   /**
    * TypeScript public modifiers
    */
   constructor(
     public appState: AppState,
     public title: Title,
-    private oauthService: OAuthService,
-    private httpClient: HttpClient
   ) {
-    console.log(this.oauthService.getAccessToken());
-    var headers = new HttpHeaders({
-      "Authorization": "Bearer " + this.oauthService.getAccessToken()
-    });
-    this.httpClient.get(this.url + '/issues' , {
-      headers: headers,
-      responseType: 'json'
-    }).subscribe((result) => console.log(result));
+
   }
 
 
-  public login() {
-    this.oauthService.initImplicitFlow();
-  }
-
-  public logoff() {
-    this.oauthService.logOut();
-  }
-
-  public get name() {
-    let claims = this.oauthService.getIdentityClaims();
-    if (!claims) return null;
-    return claims['given_name'];
-  }
 
   public ngOnInit() {
     console.log('hello `Home` component');
