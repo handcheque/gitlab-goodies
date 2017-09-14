@@ -1,6 +1,35 @@
 <div class="row justify-content-center">
-  <div class="col-10">
-    <h1>Eisenhower Matrix</h1>
+  <div class="col-6">
+    <div class="card" style="width: 20rem;">
+      <div class="card-body">
+        <h4 class="card-title mb-2">Important &amp; Urgent</h4>
+        <span *ngFor="let issue of q1" class="badge badge-secondary mr-1">{{issue.title}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title mb-2">Important &amp; Not Urgent</h4>
+        <span *ngFor="let issue of q2" class="badge badge-secondary mr-1">{{issue.title}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title mb-2">Not Important &amp; Urgent</h4>
+        <span *ngFor="let issue of q3" class="badge badge-secondary mr-1">{{issue.title}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title mb-2">Not Important &amp; Not Urgent</h4>
+        <span *ngFor="let issue of q4" class="badge badge-secondary mr-1">{{issue.title}}</span>
+      </div>
+    </div>
   </div>
 
 </div>

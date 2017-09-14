@@ -7,8 +7,20 @@ import { OAuthService } from 'angular-oauth2-oidc';
 
 
 export class Issue {
-  constructor(public id: number, public name: string) { }
+  constructor(
+    public id: number,
+    public title: string,
+    public labels: string[],
+    public assignee?: {
+      name: string
+    }
+  ) { }
 }
+
+export class User {
+  constructor(public id: number, public username: string, public labels: string[]) { }
+}
+
 
 import { Injectable } from '@angular/core';
 
@@ -23,13 +35,10 @@ export class GitlabService {
   ){}
 
   getIssues(): Observable<Issue[]> {
-    var headers = new HttpHeaders({
-      "Authorization": "Bearer " + this.oauthService.getAccessToken()
-    });
     var params = new HttpParams().set("per_page", "100");
 
     return this.httpClient.get(this.url + '/issues' , {
-      headers: headers,
+      headers: this.getHeaders(),
       params: params,
       responseType: 'json'
     });
@@ -39,6 +48,20 @@ export class GitlabService {
   getIssue(id: number | string) {
     return this.getIssues()
       .map(issues => issues.find(issue => issue.id === +id));
+  }
+
+  getCurrentUser() {
+    return this.httpClient.get(this.url + '/user' , {
+      headers: this.getHeaders(),
+      responseType: 'json'
+    });
+  }
+
+  private getHeaders() {
+    return new HttpHeaders({
+      "Authorization": "Bearer " + this.oauthService.getAccessToken()
+    });
+
   }
 
 }

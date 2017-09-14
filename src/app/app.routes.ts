@@ -4,7 +4,7 @@ import { HomeResolver } from './home/home.resolver.service';
 import { AboutComponent } from './about';
 import { NoContentComponent } from './no-content';
 
-import { DataResolver } from './app.resolver';
+import { DataResolver, UserResolver } from './app.resolver';
 
 export const ROUTES: Routes = [
   { path: '',      component: HomeComponent },
@@ -12,7 +12,8 @@ export const ROUTES: Routes = [
     path: 'home',
     component: HomeComponent,
     resolve: {
-              issues: HomeResolver
+              issues: HomeResolver,
+              user: UserResolver
             }
   },
   { path: 'about', component: AboutComponent },
