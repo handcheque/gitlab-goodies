@@ -17,6 +17,7 @@ import {
   PreloadAllModules
 } from '@angular/router';
 
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 /*
@@ -66,6 +67,7 @@ type StoreType = {
    * Import Angular's modules.
    */
   imports: [
+    NgbModule.forRoot(),
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
