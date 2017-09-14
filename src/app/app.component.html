@@ -1,0 +1,53 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Gitlab Goodies</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a [routerLink]=" ['./'] "
+          routerLinkActive="active" [routerLinkActiveOptions]= "{exact: true}"
+          class="nav-link"
+          >
+          Index
+        </a>
+      </li>
+      <li class="nav-item">
+        <a [routerLink]=" ['./home'] "
+          routerLinkActive="active" [routerLinkActiveOptions]= "{exact: true}"
+          class="nav-link"
+          >
+          Home
+        </a>
+      </li>
+    </ul>
+    <!--a [routerLink]=" ['./detail'] "
+      routerLinkActive="active" [routerLinkActiveOptions]= "{exact: true}">
+      Detail
+    </a>
+    <a [routerLink]=" ['./barrel'] "
+      routerLinkActive="active" [routerLinkActiveOptions]= "{exact: true}">
+      Barrel
+    </a>
+    <a [routerLink]=" ['./about'] "
+      routerLinkActive="active" [routerLinkActiveOptions]= "{exact: true}">
+      About
+    </a-->
+  </div>
+</nav>
+<div class="container">
+
+  <router-outlet></router-outlet>
+
+  <!--pre class="app-state">this.appState.state = {{ appState.state | json }}</pre>
+
+  <footer>
+    <span>WebPack Angular 2 Starter by <a [href]="url">@AngularClass</a></span>
+    <div>
+      <a [href]="url">
+        <img [src]="angularclassLogo" width="25%">
+      </a>
+    </div>
+  </footer-->
+</div>
