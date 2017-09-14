@@ -1,6 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpModule } from "@angular/http";
+import { HttpClientModule } from "@angular/common/http";
+
 import {
   NgModule,
   ApplicationRef
@@ -30,6 +32,8 @@ import { HomeComponent } from './home';
 import { AboutComponent } from './about';
 import { NoContentComponent } from './no-content';
 import { XLargeDirective } from './home/x-large';
+
+import { OAuthModule } from 'angular-oauth2-oidc';
 
 import '../styles/styles.scss';
 import '../styles/headings.css';
@@ -66,10 +70,12 @@ type StoreType = {
     BrowserAnimationsModule,
     FormsModule,
     HttpModule,
+    HttpClientModule,
     RouterModule.forRoot(ROUTES, {
       useHash: Boolean(history.pushState) === false,
       preloadingStrategy: PreloadAllModules
-    })
+    }),
+    OAuthModule.forRoot()
   ],
   /**
    * Expose our Services and Providers into Angular's dependency injection.

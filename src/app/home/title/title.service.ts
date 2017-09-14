@@ -7,7 +7,7 @@ export class Title {
   public value = 'Angular 2';
 
   constructor(
-    public http: Http
+    //public http: Http
   ) {}
 
   public getData() {
