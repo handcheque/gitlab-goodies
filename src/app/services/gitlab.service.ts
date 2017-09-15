@@ -9,8 +9,10 @@ import { OAuthService } from 'angular-oauth2-oidc';
 export class Issue {
   constructor(
     public id: number,
+    public iid: number,
+    public project_id: number,
     public title: string,
-    public labels: string[],
+    public labels: string[] | string,
     public assignee?: {
       name: string
     }
@@ -19,6 +21,22 @@ export class Issue {
 
 export class User {
   constructor(public id: number, public username: string, public labels: string[]) { }
+}
+
+export class Project {
+  constructor(
+    public id: number,
+    public iid: number,
+    public labels: string[],
+  ) { }
+}
+
+export class ProjectLabel {
+  constructor(
+    public id: number,
+    public name: string,
+    public color: string,
+  ) { }
 }
 
 
@@ -49,6 +67,56 @@ export class GitlabService {
     return this.getIssues()
       .map(issues => issues.find(issue => issue.id === +id));
   }
+
+  getProject(id: number | string) {
+    return this.httpClient.get(`${this.url}/projects/${id}` , {
+      headers: this.getHeaders(),
+      responseType: 'json'
+    });
+  }
+
+  getProjectLabels(id: number | string): Observable<ProjectLabel[]> {
+    return this.httpClient.get(`${this.url}/projects/${id}/labels` , {
+      headers: this.getHeaders(),
+      responseType: 'json'
+    });
+  }
+
+  updateProjectLabel(project_id, project_label) {
+    return this.httpClient.put(`${this.url}/projects/${project_id}/labels/${project_label.id}`,
+      project_label,
+      {
+        headers: this.getHeaders(),
+        responseType: 'json',
+      }
+    );
+  }
+
+  createProjectLabel(project_id, project_label) {
+    return this.httpClient.post(`${this.url}/projects/${project_id}/labels`,
+      project_label,
+      {
+        headers: this.getHeaders(),
+        responseType: 'json',
+      }
+    );
+  }
+
+
+  updateIssue(issue: Issue) {
+    console.log("Updating issue");
+    if(issue.labels instanceof Array) {
+      issue.labels = issue.labels.join(',');
+    }
+    return this.httpClient.put(`${this.url}/projects/${issue.project_id}/issues/${issue.iid}`,
+      issue,
+      {
+        headers: this.getHeaders(),
+        responseType: 'json',
+      }
+    );
+  }
+
 
   getCurrentUser() {
     return this.httpClient.get(this.url + '/user' , {

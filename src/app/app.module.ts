@@ -38,6 +38,8 @@ import { GitlabService } from './services/gitlab.service';
 
 import { OAuthModule } from 'angular-oauth2-oidc';
 
+import { DragulaModule } from 'ng2-dragula';
+
 import '../styles/styles.scss';
 
 // Application wide providers
@@ -79,7 +81,8 @@ type StoreType = {
       useHash: Boolean(history.pushState) === false,
       preloadingStrategy: PreloadAllModules
     }),
-    OAuthModule.forRoot()
+    OAuthModule.forRoot(),
+    DragulaModule
   ],
   /**
    * Expose our Services and Providers into Angular's dependency injection.

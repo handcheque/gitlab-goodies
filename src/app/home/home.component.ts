@@ -3,10 +3,13 @@ import {
   OnInit
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
+
+import { DragulaService } from 'ng2-dragula/ng2-dragula';
 
 import { AppState } from '../app.service';
 import { Title } from './title';
-import { Issue, User } from '../services/gitlab.service';
+import { Issue, User, GitlabService } from '../services/gitlab.service';
 
 @Component({
   /**
@@ -36,6 +39,14 @@ export class HomeComponent implements OnInit {
    * Set our default values
    */
   public localState = { value: '' };
+
+  private labels = [
+    {name:"now", color: '#FF4400'},
+    {name:"important", color: '#FF00FF'},
+    {name:"later", color: '#7F8C8D'},
+    {name:"nice to have", color: '#A8D695'}
+  ]
+
   /**
    * TypeScript public modifiers
    */
@@ -44,7 +55,23 @@ export class HomeComponent implements OnInit {
     public title: Title,
     private route: ActivatedRoute,
     private router: Router,
+    private dragulaService: DragulaService,
+    private gitlab: GitlabService
     ) {
+      dragulaService.dropModel.subscribe((value) => {
+        let issue_id = value[1].id.split('-')[1];
+        let new_quadrant = value[2].id.split('-')[1];
+
+        let issue: Issue = this[new_quadrant].find((issue) => `${issue.id}` === issue_id);
+
+        this.fixLabels(issue.project_id).then((result) =>{
+          if(new_quadrant === 'q1')
+          {
+            issue.labels = issue.labels.filter((label) => label != 'later').filter((label) => label != 'nice to have').concat(['now', 'important']);
+            gitlab.updateIssue(issue).subscribe((value) => console.log(value));
+          }
+        })
+      });
 
   }
 
@@ -71,16 +98,44 @@ export class HomeComponent implements OnInit {
         this.q4 = assigned_issues.filter((issue) => !issue.labels.find((label) => label === 'now') && !issue.labels.find((label) => label === 'important'));
 
       });
-
-
-    /**
-     * this.title.getData().subscribe(data => this.data = data);
-     */
   }
 
-  public submitState(value: string) {
-    console.log('submitState', value);
-    this.appState.set('value', value);
-    this.localState.value = '';
+  private fixLabels(project_id): Promise<Object> {
+    let fixed_promise = new Promise((resolve, reject) => {
+      let label_observables: Observable<Object>[] = [];
+      let project_observable = this.gitlab.getProjectLabels(project_id);
+      label_observables.push(project_observable);
+      project_observable.subscribe((project_labels) => {
+        for(var label of this.labels) {
+          let matching_project_label = project_labels.find((project_label) => project_label.name === label.name)
+          if(matching_project_label)
+          {
+            console.log("Found:");
+            console.log(matching_project_label);
+            console.log(label);
+            if(matching_project_label.color === label.color)
+            {
+              console.log("Perfect Match!")
+            }
+            else
+            {
+              console.log("Updating Label ...")
+              matching_project_label.color = label.color;
+              label_observables.push(this.gitlab.updateProjectLabel(project_id, matching_project_label));
+            }
+          }
+          else
+          {
+            console.log("Not Found:");
+            console.log(label);
+            console.log("Creating Label ...");
+            label_observables.push(this.gitlab.createProjectLabel(project_id, label));
+          }
+          Observable.forkJoin(label_observables).subscribe((value) => resolve(value));
+        }
+      });
+    });
+    return fixed_promise;
   }
+
 }
