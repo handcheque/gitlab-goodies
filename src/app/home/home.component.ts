@@ -92,10 +92,10 @@ export class HomeComponent implements OnInit {
 
         let assigned_issues = data.issues.filter((issue) => issue.assignee && issue.assignee.name == data.user.username)
 
-        this.q1 = assigned_issues.filter((issue) => issue.labels.find((label) => label === 'now') && issue.labels.find((label) => label === 'important'));
-        this.q2 = assigned_issues.filter((issue) => !issue.labels.find((label) => label === 'now') && issue.labels.find((label) => label === 'important'));
-        this.q3 = assigned_issues.filter((issue) => issue.labels.find((label) => label === 'now') && !issue.labels.find((label) => label === 'important'));
-        this.q4 = assigned_issues.filter((issue) => !issue.labels.find((label) => label === 'now') && !issue.labels.find((label) => label === 'important'));
+        this.q1 = assigned_issues.filter((issue) => issue.labels.indexOf('now') > -1 && issue.labels.indexOf('important') > -1);
+        this.q2 = assigned_issues.filter((issue) => issue.labels.indexOf('now') < 0 && issue.labels.indexOf('important') > -1);
+        this.q3 = assigned_issues.filter((issue) => issue.labels.indexOf('now') > -1 && issue.labels.indexOf('important') < 0);
+        this.q4 = assigned_issues.filter((issue) => issue.labels.indexOf('now') < 0 && issue.labels.indexOf('important') < 0);
 
       });
   }
