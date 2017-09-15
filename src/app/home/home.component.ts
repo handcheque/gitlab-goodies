@@ -8,7 +8,6 @@ import { Observable } from 'rxjs';
 import { DragulaService } from 'ng2-dragula/ng2-dragula';
 
 import { AppState } from '../app.service';
-import { Title } from './title';
 import { Issue, User, GitlabService } from '../services/gitlab.service';
 
 @Component({
@@ -22,7 +21,6 @@ import { Issue, User, GitlabService } from '../services/gitlab.service';
    * We need to tell Angular's Dependency Injection which providers are in our app.
    */
   providers: [
-    Title
   ],
   /**
    * Our list of styles in our component. We may add more to compose many styles together.
@@ -52,7 +50,6 @@ export class HomeComponent implements OnInit {
    */
   constructor(
     public appState: AppState,
-    public title: Title,
     private route: ActivatedRoute,
     private router: Router,
     private dragulaService: DragulaService,
