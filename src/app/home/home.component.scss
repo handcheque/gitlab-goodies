@@ -1,6 +1,26 @@
 /*styles for home content only*/
 
   table.ehm {
+
+    /*
+    tr.important {
+      background-color: rgba(255, 128, 128, 1);
+    }
+
+    tr.not-important {
+      background-color: rgba(255, 128, 128, 0.5);
+    }
+
+
+    td.urgent {
+      background-color: rgba(128, 128, 255, 0.5);
+    }
+
+    td.not-urgent {
+      background-color: rgba(128, 128, 255, 0.25);
+    }
+    */
+
     table-layout: fixed;
     td:nth-of-type(1), th:nth-of-type(1) {width:10%;}
     td:nth-of-type(2), th:nth-of-type(2) {width:45%;}
@@ -8,5 +28,26 @@
 
     tbody {
       tr {height: 20em;}
+    }
+
+    .issue-card {
+      border-radius: 0.3em;
+      color: white;
+      background-color: grey;
+      display: inline-block;
+      padding: 0.3em 0.5em;
+      font-size: 0.8em;
+      margin-bottom: 1rem;
+      margin-right: 1rem;
+      vertical-align: top;
+
+      a.title {
+        color: white;
+        font-weight: bold;
+        :hover {
+          text-decoration: underline;
+        }
+      }
+
     }
   }
