@@ -20,10 +20,10 @@
             Important
           </th>
           <td [dragula]='"ehm"' [dragulaModel]='q1' id="ehm-q1">
-            <span *ngFor="let issue of q1" class="badge badge-secondary mr-1">{{issue.title}}</span>
+            <span *ngFor="let issue of q1" class="badge badge-secondary mr-1" [id]="'issue-' + issue.id">{{issue.title}}</span>
           </td>
           <td [dragula]='"ehm"' [dragulaModel]='q2' id="ehm-q2">
-            <span *ngFor="let issue of q2" class="badge badge-secondary mr-1">{{issue.title}}</span>
+            <span *ngFor="let issue of q2" class="badge badge-secondary mr-1" [id]="'issue-' + issue.id">{{issue.title}}</span>
           </td>
         </tr>
         <tr>
@@ -31,7 +31,7 @@
             Delegate
           </th>
           <td [dragula]='"ehm"' [dragulaModel]='q3' id="ehm-q3">
-            <span *ngFor="let issue of q3" class="badge badge-secondary mr-1">{{issue.title}}</span>
+            <span *ngFor="let issue of q3" class="badge badge-secondary mr-1" [id]="'issue-' + issue.id">{{issue.title}}</span>
           </td>
           <td [dragula]='"ehm"' [dragulaModel]='q4' id="ehm-q4">
             <span *ngFor="let issue of q4" class="badge badge-secondary mr-1" [id]="'issue-' + issue.id">{{issue.title}}</span>

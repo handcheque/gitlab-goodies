@@ -106,7 +106,7 @@ export class GitlabService {
   updateIssue(issue: Issue) {
     console.log("Updating issue");
     if(issue.labels instanceof Array) {
-      issue.labels = issue.labels.join(',');
+      issue.labels = issue.labels.filter((label, i,ar) => ar.indexOf(label) === i).join(',');
     }
     return this.httpClient.put(`${this.url}/projects/${issue.project_id}/issues/${issue.iid}`,
       issue,

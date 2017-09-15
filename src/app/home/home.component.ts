@@ -64,10 +64,35 @@ export class HomeComponent implements OnInit {
 
         let issue: Issue = this[new_quadrant].find((issue) => `${issue.id}` === issue_id);
 
+        console.log(issue);
+
         this.fixLabels(issue.project_id).then((result) =>{
           if(new_quadrant === 'q1')
           {
-            issue.labels = issue.labels.filter((label) => label != 'later').filter((label) => label != 'nice to have').concat(['now', 'important']);
+            if(issue.labels instanceof Array) {
+              issue.labels = issue.labels.filter((label) => label != 'later').filter((label) => label != 'nice to have').concat(['now', 'important']);
+            }
+            gitlab.updateIssue(issue).subscribe((value) => console.log(value));
+          }
+          else if(new_quadrant === 'q2')
+          {
+            if(issue.labels instanceof Array) {
+              issue.labels = issue.labels.filter((label) => label != 'now').filter((label) => label != 'nice to have').concat(['later', 'important']);
+            }
+            gitlab.updateIssue(issue).subscribe((value) => console.log(value));
+          }
+          else if(new_quadrant === 'q3')
+          {
+            if(issue.labels instanceof Array) {
+              issue.labels = issue.labels.filter((label) => label != 'later').filter((label) => label != 'important').concat(['now', 'nice to have']);
+            }
+            gitlab.updateIssue(issue).subscribe((value) => console.log(value));
+          }
+          else if(new_quadrant === 'q4')
+          {
+            if(issue.labels instanceof Array) {
+              issue.labels = issue.labels.filter((label) => label != 'now').filter((label) => label != 'important').concat(['later', 'nice to have']);
+            }
             gitlab.updateIssue(issue).subscribe((value) => console.log(value));
           }
         })
@@ -116,6 +141,7 @@ export class HomeComponent implements OnInit {
             if(matching_project_label.color === label.color)
             {
               console.log("Perfect Match!")
+              label_observables.push(Observable.of("Nothing to do!"));
             }
             else
             {
