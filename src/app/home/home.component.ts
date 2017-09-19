@@ -112,7 +112,9 @@ export class HomeComponent implements OnInit {
     this.route.data
       .subscribe((data: { issues: Issue[], user: User }) => {
 
-        let assigned_issues = data.issues.filter((issue) => issue.assignee && issue.assignee.name == data.user.username)
+        let assigned_issues = data.issues
+          .filter((issue) => issue.assignee && issue.assignee.name == data.user.username)
+          .filter((issue) => issue.state != 'closed');
 
         this.q1 = assigned_issues.filter((issue) => issue.labels.indexOf('now') > -1 && issue.labels.indexOf('important') > -1);
         this.q2 = assigned_issues.filter((issue) => issue.labels.indexOf('now') < 0 && issue.labels.indexOf('important') > -1);

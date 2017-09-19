@@ -15,7 +15,8 @@ export class Issue {
     public labels: string[] | string,
     public assignee?: {
       name: string
-    }
+    },
+    public state?: string
   ) { }
 }
 
