@@ -17,6 +17,9 @@
 
 FROM nginx:1.13.0-alpine
 
+ARG API_KEY=__GITLAB_GOODIES_API_KEY__
+ARG API_URL=__GITLAB_GOODIES_API_URL__
+
 # install console and node
 RUN apk add --no-cache bash=4.3.46-r5 &&\
     apk add --no-cache openssl=1.0.2k-r0 &&\
@@ -34,7 +37,8 @@ ADD . /tmp/app
 RUN cd /tmp/app &&\
     npm run build:aot &&\
     mv ./dist/* /usr/share/nginx/html/ &&\
-    mv nginx.conf /etc/nginx/conf.d/default.conf
+    mv nginx.conf /etc/nginx/conf.d/default.conf &&\
+    mv docker-command.sh /usr/bin
 
 # clean
 RUN rm -Rf /tmp/npm_inst  &&\
@@ -43,4 +47,7 @@ RUN rm -Rf /tmp/npm_inst  &&\
     apk del nodejs
 
 # this is for virtual host purposes
+
+CMD docker-command.sh
+
 EXPOSE 80
