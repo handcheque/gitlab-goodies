@@ -46,7 +46,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class GitlabService {
 
-  public url = 'https://gitlab.handcheque-hq.com/api/v4';
+  public url = process.env.API_URL + '/api/v4';
 
   constructor(
     private oauthService: OAuthService,
