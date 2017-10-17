@@ -16,6 +16,7 @@ const ContextReplacementPlugin = require('webpack/lib/ContextReplacementPlugin')
 const CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CheckerPlugin = require('awesome-typescript-loader').CheckerPlugin;
+const DefinePlugin = require('webpack/lib/DefinePlugin');
 const HtmlElementsPlugin = require('./html-elements-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const InlineManifestWebpackPlugin = require('inline-manifest-webpack-plugin');
@@ -29,12 +30,16 @@ const ngcWebpack = require('ngc-webpack');
  */
 const HMR = helpers.hasProcessFlag('hot');
 const AOT = process.env.BUILD_AOT || helpers.hasNpmFlag('aot');
+const API_URL = process.env.API_URL;
+const API_KEY = process.env.API_KEY;
 const METADATA = {
   title: 'handcheque Gitlab Goodies',
   baseUrl: '/',
   isDevServer: helpers.isWebpackDevServer(),
   HMR: HMR,
-  AOT: AOT
+  AOT: AOT,
+  API_URL: API_URL,
+  API_KEY: API_KEY
 };
 
 /**
@@ -205,6 +210,23 @@ module.exports = function (options) {
      * See: http://webpack.github.io/docs/configuration.html#plugins
      */
     plugins: [
+      /**
+       * Plugin: DefinePlugin
+       * Description: Define free variables.
+       * Useful for having development builds with debug logging or adding global constants.
+       *
+       * Environment helpers
+       *
+       * See: https://webpack.github.io/docs/list-of-plugins.html#defineplugin
+       *
+       * NOTE: when adding more properties, make sure you include them in custom-typings.d.ts
+       */
+      new DefinePlugin({
+        'process.env': {
+          'API_URL': JSON.stringify(process.env.API_URL),
+          'API_KEY': JSON.stringify(process.env.API_KEY)
+        }
+      }),
       // Use for DLLs
       // new AssetsPlugin({
       //   path: helpers.root('dist'),
