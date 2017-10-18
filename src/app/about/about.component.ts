@@ -6,14 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'about',
-  styles: [`
-  `],
-  template: `
-    <h1>About</h1>
-    <div>
-      Gitlab Goodies &copy; 2017 handcheque GmbH
-    </div>
-  `
+  templateUrl: './about.component.html'
 })
 export class AboutComponent implements OnInit {
 
