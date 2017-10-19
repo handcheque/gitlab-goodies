@@ -119,7 +119,7 @@ export class GitlabService {
   }
 
 
-  getCurrentUser() {
+  getCurrentUser(): Observable<User> {
     return this.httpClient.get(this.url + '/user' , {
       headers: this.getHeaders(),
       responseType: 'json'

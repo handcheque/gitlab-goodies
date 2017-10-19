@@ -21,9 +21,14 @@
           Eisenhower Matrix
         </a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="!user">
         <a class="nav-link" (click)="login()">
           Login
+        </a>
+      </li>
+      <li class="nav-item" *ngIf="user">
+        <a class="nav-link" (click)="logout()">
+          Logout
         </a>
       </li>
     </ul>

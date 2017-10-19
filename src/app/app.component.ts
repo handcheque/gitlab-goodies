@@ -7,12 +7,16 @@ import {
   OnInit,
   ViewEncapsulation
 } from '@angular/core';
+import { Router } from '@angular/router';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { AppState } from './app.service';
+import { User, GitlabService } from './services/gitlab.service';
 import {
   OAuthService,
   JwksValidationHandler
 } from 'angular-oauth2-oidc';
+
+
 
 /**
  * App Component
@@ -31,25 +35,29 @@ export class AppComponent implements OnInit {
   public name = 'Gitlab Eisenhower Matrix';
   public url = 'https://gitlab.handcheque-hq.com/api/v4';
 
+  public user:User;
+
   constructor(
     public appState: AppState,
     private oauthService: OAuthService,
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
+    private gitlabService: GitlabService,
+    private router: Router
   ) {
     this.configureWithNewConfigApi();
-
+    this.gitlabService.getCurrentUser().subscribe((user)=>this.user = user);
   }
 
   private configureWithNewConfigApi() {
 
     this.oauthService.configure(authConfig);
     this.oauthService.tokenValidationHandler = new JwksValidationHandler();
-    //this.oauthService.loadDiscoveryDocumentAndTryLogin();
 
     // Optional
     this.oauthService.setupAutomaticSilentRefresh();
     this.oauthService.events.subscribe(e => {
-      console.debug('oauth/oidc event', e);
+      console.log("OAUTH Event\n============");
+      console.log(e);
     });
 
     this.oauthService.events.filter(e => e.type === 'session_terminated').subscribe(e => {
@@ -65,8 +73,11 @@ export class AppComponent implements OnInit {
     this.oauthService.initImplicitFlow();
   }
 
-  public logoff() {
+  public logout() {
+    console.log("log out");
     this.oauthService.logOut();
+    this.user = null;
+    this.router.navigate(['/']);
   }
 
 
@@ -76,11 +87,3 @@ export class AppComponent implements OnInit {
   }
 
 }
-
-/**
- * Please review the https://github.com/AngularClass/angular2-examples/ repo for
- * more angular app examples that you may copy/paste
- * (The examples may not be updated as quickly. Please open an issue on github for us to update it)
- * For help or questions please contact us at @AngularClass on twitter
- * or our chat on Slack at https://AngularClass.com/slack-join
- */
