@@ -105,10 +105,6 @@ export class HomeComponent implements OnInit {
 
 
   public ngOnInit() {
-    console.log('hello `Home` component');
-
-
-
     this.route.data
       .subscribe((data: { issues: Issue[], user: User }) => {
 
@@ -134,12 +130,8 @@ export class HomeComponent implements OnInit {
           let matching_project_label = project_labels.find((project_label) => project_label.name === label.name)
           if(matching_project_label)
           {
-            console.log("Found:");
-            console.log(matching_project_label);
-            console.log(label);
             if(matching_project_label.color === label.color)
             {
-              console.log("Perfect Match!")
               label_observables.push(Observable.of("Nothing to do!"));
             }
             else
@@ -151,8 +143,6 @@ export class HomeComponent implements OnInit {
           }
           else
           {
-            console.log("Not Found:");
-            console.log(label);
             console.log("Creating Label ...");
             label_observables.push(this.gitlab.createProjectLabel(project_id, label));
           }
