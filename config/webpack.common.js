@@ -222,12 +222,12 @@ module.exports = function (options) {
        *
        * NOTE: when adding more properties, make sure you include them in custom-typings.d.ts
        */
-      new DefinePlugin({
-        'process.env': {
-          'API_URL': JSON.stringify(process.env.API_URL),
-          'API_KEY': JSON.stringify(process.env.API_KEY)
-        }
-      }),
+      // new DefinePlugin({
+      //   'process.env': {
+      //     'API_URL': JSON.stringify(process.env.API_URL),
+      //     'API_KEY': JSON.stringify(process.env.API_KEY)
+      //   }
+      // }),
       // Use for DLLs
       // new AssetsPlugin({
       //   path: helpers.root('dist'),

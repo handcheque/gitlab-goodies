@@ -15,6 +15,7 @@ const DefinePlugin = require('webpack/lib/DefinePlugin');
 const NamedModulesPlugin = require('webpack/lib/NamedModulesPlugin');
 const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
 const HotModuleReplacementPlugin = require('webpack/lib/HotModuleReplacementPlugin');
+const Dotenv = require('dotenv-webpack');
 
 /**
  * Webpack Constants
@@ -126,6 +127,9 @@ module.exports = function (options) {
 
     plugins: [
 
+      new Dotenv({
+        safe: true // load .env.example (defaults to "false" which does not use dotenv-safe)
+      }),
       /**
        * Plugin: DefinePlugin
        * Description: Define free variables.
