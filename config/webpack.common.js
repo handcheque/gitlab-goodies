@@ -10,6 +10,7 @@ const helpers = require('./helpers');
  *
  * problem with copy-webpack-plugin
  */
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const AssetsPlugin = require('assets-webpack-plugin');
 const NormalModuleReplacementPlugin = require('webpack/lib/NormalModuleReplacementPlugin');
 const ContextReplacementPlugin = require('webpack/lib/ContextReplacementPlugin');
@@ -233,7 +234,6 @@ module.exports = function (options) {
       //   filename: 'webpack-assets.json',
       //   prettyPrint: true
       // }),
-
       /**
        * Plugin: ForkCheckerPlugin
        * Description: Do type checking in a separate process, so webpack doesn't need to wait.
