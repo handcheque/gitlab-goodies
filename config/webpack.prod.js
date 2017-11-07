@@ -169,7 +169,7 @@ module.exports = function (env) {
         'AOT': METADATA.AOT,
         'process.env.ENV': JSON.stringify(METADATA.ENV),
         'process.env.NODE_ENV': JSON.stringify(METADATA.ENV),
-        'process.env.HMR': METADATA.HMR
+        'process.env.HMR': METADATA.HMR,
         'process.env': {
           'API_URL': JSON.stringify(process.env.API_URL),
           'API_KEY': JSON.stringify(process.env.API_KEY)

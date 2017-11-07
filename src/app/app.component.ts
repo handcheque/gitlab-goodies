@@ -33,7 +33,6 @@ import {
 export class AppComponent implements OnInit {
   public angularclassLogo = 'assets/img/angularclass-avatar.png';
   public name = 'Gitlab Eisenhower Matrix';
-  public url = 'https://gitlab.handcheque-hq.com/api/v4';
 
   public user:User;
 
