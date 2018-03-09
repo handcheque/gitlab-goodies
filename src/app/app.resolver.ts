@@ -3,14 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 
-import { GitlabService, User } from './services/gitlab.service';
-
-@Injectable()
-export class DataResolver implements Resolve<any> {
-  public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    return Observable.of({ res: 'I am data'});
-  }
-}
+import { GitlabService, User, Issue, Group, Project, Milestone } from './services/gitlab.service';
 
 @Injectable()
 export class UserResolver implements Resolve<any> {
@@ -21,11 +14,50 @@ export class UserResolver implements Resolve<any> {
   }
 }
 
+@Injectable()
+export class IssuesResolver implements Resolve<Issue[]> {
+  constructor(private gitlab: GitlabService) {}
+
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Issue[]> {
+    return this.gitlab.getIssues();
+  }
+}
+
+@Injectable()
+export class GroupsResolver implements Resolve<Group[]> {
+  constructor(private gitlab: GitlabService) {}
+
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Group[]> {
+    return this.gitlab.getGroups();
+  }
+}
+
+@Injectable()
+export class ProjectsResolver implements Resolve<Project[]> {
+  constructor(private gitlab: GitlabService) {}
+
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Project[]> {
+    return this.gitlab.getProjects();
+  }
+}
+
+@Injectable()
+export class MilestonesResolver implements Resolve<Milestone[]> {
+  constructor(private gitlab: GitlabService) {}
+
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Group[]> {
+    return this.gitlab.getAllMilestones();
+  }
+}
+
 
 /**
  * An array of services to resolve routes with data.
  */
 export const APP_RESOLVER_PROVIDERS = [
-  DataResolver,
-  UserResolver
+  UserResolver,
+  IssuesResolver,
+  GroupsResolver,
+  MilestonesResolver,
+  ProjectsResolver
 ];

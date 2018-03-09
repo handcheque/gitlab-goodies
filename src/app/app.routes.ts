@@ -1,10 +1,11 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home';
 import { HomeResolver } from './home/home.resolver.service';
+import { WorkBreakdownScheduleComponent } from './work-breakdown-schedule';
 import { AboutComponent } from './about';
 import { NoContentComponent } from './no-content';
 
-import { DataResolver, UserResolver } from './app.resolver';
+import { UserResolver, IssuesResolver, GroupsResolver, ProjectsResolver, MilestonesResolver } from './app.resolver';
 
 export const ROUTES: Routes = [
   { path: '',      component: AboutComponent },
@@ -15,6 +16,15 @@ export const ROUTES: Routes = [
               issues: HomeResolver,
               user: UserResolver
             }
+  },
+  {
+    path: 'work-breakdown-schedule',
+    component: WorkBreakdownScheduleComponent,
+    resolve: {
+      groups: GroupsResolver,
+      projects: ProjectsResolver,
+      milestones: MilestonesResolver
+    }
   },
   { path: 'about', component: AboutComponent },
   { path: '**',    component: NoContentComponent },

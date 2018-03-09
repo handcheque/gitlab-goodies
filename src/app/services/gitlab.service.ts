@@ -6,6 +6,23 @@ import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { OAuthService } from 'angular-oauth2-oidc';
 
 
+export class Group {
+  constructor(
+    public id: number,
+    public name: string,
+    public path: string,
+    public description: string,
+    public visibility: string,
+    public lfs_enabled: boolean,
+    public avatar_url: string,
+    public web_url: string,
+    request_access_enabled: boolean,
+    full_name: string,
+    full_path: string,
+    parent_id?: number
+  ) {}
+}
+
 export class Issue {
   constructor(
     public id: number,
@@ -27,10 +44,18 @@ export class User {
 export class Project {
   constructor(
     public id: number,
-    public iid: number,
-    public labels: string[],
+    public web_url: string,
+    public name: string,
+    public path: string
   ) { }
 }
+
+export class Milestone {
+  constructor(
+    public id: number,
+  ) { }
+}
+
 
 export class ProjectLabel {
   constructor(
@@ -52,6 +77,47 @@ export class GitlabService {
     private oauthService: OAuthService,
     private httpClient: HttpClient
   ){}
+
+  getMilestones(project_id): Observable<Milestone[]> {
+    return this.httpClient.get(
+      this.url + "/projects/" + project_id + "/milestones",
+      {
+        headers: this.getHeaders(),
+        responseType: 'json'
+      }
+    );
+  }
+
+
+  getAllMilestones(): Observable<Milestone[]> {
+    return this.getProjects().mergeMap(
+      projects => projects.map(project => this.getMilestones(project.id))
+    ).concatAll().reduce((collected_milestones, next_list) => collected_milestones.concat(next_list), []);
+  }
+
+
+  getProjects(): Observable<Project[]> {
+    var params = new HttpParams().set("simple", "true").set("per_page", "100");
+
+    return this.httpClient.get(this.url + '/projects' , {
+      headers: this.getHeaders(),
+      params: params,
+      responseType: 'json'
+    });
+
+  }
+
+
+  getGroups(): Observable<Group[]> {
+    var params = new HttpParams().set("per_page", "100").set("all_available", "true");
+
+    return this.httpClient.get(this.url + '/groups' , {
+      headers: this.getHeaders(),
+      params: params,
+      responseType: 'json'
+    });
+
+  }
 
   getIssues(): Observable<Issue[]> {
     var params = new HttpParams().set("per_page", "100");

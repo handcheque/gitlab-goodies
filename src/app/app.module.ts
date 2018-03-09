@@ -33,6 +33,7 @@ import { HomeComponent } from './home';
 import { HomeResolver } from './home/home.resolver.service';
 import { AboutComponent } from './about';
 import { NoContentComponent } from './no-content';
+import { WorkBreakdownScheduleComponent } from './work-breakdown-schedule';
 
 import { GitlabService } from './services/gitlab.service';
 
@@ -66,6 +67,7 @@ type StoreType = {
     AboutComponent,
     HomeComponent,
     NoContentComponent,
+    WorkBreakdownScheduleComponent,
   ],
   /**
    * Import Angular's modules.
