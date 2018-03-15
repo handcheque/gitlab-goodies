@@ -45,7 +45,7 @@ export class ProjectsResolver implements Resolve<Project[]> {
 export class MilestonesResolver implements Resolve<Milestone[]> {
   constructor(private gitlab: GitlabService) {}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Group[]> {
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Milestone[]> {
     return this.gitlab.getAllMilestones();
   }
 }

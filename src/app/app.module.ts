@@ -40,6 +40,9 @@ import { GitlabService } from './services/gitlab.service';
 import { OAuthModule } from 'angular-oauth2-oidc';
 
 import { DragulaModule } from 'ng2-dragula';
+import { D3Service } from 'd3-ng2-service';
+import { TreeDiagram } from 'angular2-tree-diagram';
+
 
 import '../styles/styles.scss';
 
@@ -48,7 +51,8 @@ const APP_PROVIDERS = [
   ...APP_RESOLVER_PROVIDERS,
   AppState,
   GitlabService,
-  HomeResolver
+  HomeResolver,
+  D3Service
 ];
 
 type StoreType = {
@@ -84,7 +88,8 @@ type StoreType = {
       preloadingStrategy: PreloadAllModules
     }),
     OAuthModule.forRoot(),
-    DragulaModule
+    DragulaModule,
+    TreeDiagram
   ],
   /**
    * Expose our Services and Providers into Angular's dependency injection.

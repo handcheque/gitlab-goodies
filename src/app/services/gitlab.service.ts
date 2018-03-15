@@ -46,7 +46,10 @@ export class Project {
     public id: number,
     public web_url: string,
     public name: string,
-    public path: string
+    public path: string,
+    public namespace: {
+      id: number
+    },
   ) { }
 }
 
@@ -97,7 +100,7 @@ export class GitlabService {
 
 
   getProjects(): Observable<Project[]> {
-    var params = new HttpParams().set("simple", "true").set("per_page", "100");
+    var params = new HttpParams().set("per_page", "100");
 
     return this.httpClient.get(this.url + '/projects' , {
       headers: this.getHeaders(),
