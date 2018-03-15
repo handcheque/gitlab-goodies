@@ -23,7 +23,8 @@ export const ROUTES: Routes = [
     resolve: {
       groups: GroupsResolver,
       projects: ProjectsResolver,
-      milestones: MilestonesResolver
+      milestones: MilestonesResolver,
+      issues: IssuesResolver
     }
   },
   { path: 'about', component: AboutComponent },

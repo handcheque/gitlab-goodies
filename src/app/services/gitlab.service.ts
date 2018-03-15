@@ -30,6 +30,9 @@ export class Issue {
     public project_id: number,
     public title: string,
     public labels: string[],
+    public milestone?: {
+      id: number,
+    },
     public assignee?: {
       name: string
     },
@@ -123,7 +126,7 @@ export class GitlabService {
   }
 
   getIssues(): Observable<Issue[]> {
-    var params = new HttpParams().set("per_page", "100");
+    var params = new HttpParams().set("per_page", "200");
 
     return this.httpClient.get(this.url + '/issues' , {
       headers: this.getHeaders(),
