@@ -22,7 +22,7 @@ ARG API_URL=__GITLAB_GOODIES_API_URL__
 
 # install console and node
 RUN apk add --no-cache bash=4.3.46-r5 &&\
-    apk add --no-cache openssl=1.0.2k-r0 &&\
+    apk add --no-cache openssl=1.0.2n-r0 &&\
     apk add --no-cache nodejs
 
 # install npm ( in separate dir due to docker cache)
@@ -35,7 +35,7 @@ RUN cd /tmp/npm_inst &&\
 # build and publish application
 ADD . /tmp/app
 RUN cd /tmp/app &&\
-    npm run build:aot &&\
+    npm run build &&\
     mv ./dist/* /usr/share/nginx/html/ &&\
     mv nginx.conf /etc/nginx/conf.d/default.conf &&\
     mv docker-command.sh /usr/bin

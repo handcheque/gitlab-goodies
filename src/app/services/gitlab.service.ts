@@ -1,9 +1,16 @@
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/concatAll';
+import 'rxjs/add/operator/reduce';
+import 'rxjs/add/operator/last';
+import 'rxjs/add/operator/toPromise';
 import { Observable } from 'rxjs';
 
-import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
+import { HttpHeaders, HttpClient, HttpParams, HttpResponse, HttpRequest } from '@angular/common/http';
 import { OAuthService } from 'angular-oauth2-oidc';
+
+import { environment } from '../../environments/environment';
 
 
 export class Group {
@@ -34,7 +41,8 @@ export class Issue {
       id: number,
     },
     public assignee?: {
-      name: string
+      name: string,
+      username: string
     },
     public state?: string
   ) { }
@@ -77,15 +85,23 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class GitlabService {
 
-  public url = process.env.API_URL + '/api/v4';
+  public currentUser:User = null;
+
+  public url = environment.apiUrl + '/api/v4';
 
   constructor(
     private oauthService: OAuthService,
     private httpClient: HttpClient
   ){}
 
+  private async get(url, options) {
+    let result = await this.httpClient.get(url , options).first().toPromise();
+    console.log(result);
+    return result;
+  }
+
   getMilestones(project_id): Observable<Milestone[]> {
-    return this.httpClient.get(
+    return this.httpClient.get<Milestone[]>(
       this.url + "/projects/" + project_id + "/milestones",
       {
         headers: this.getHeaders(),
@@ -105,7 +121,7 @@ export class GitlabService {
   getProjects(): Observable<Project[]> {
     var params = new HttpParams().set("per_page", "100");
 
-    return this.httpClient.get(this.url + '/projects' , {
+    return this.httpClient.get<Project[]>(this.url + '/projects' , {
       headers: this.getHeaders(),
       params: params,
       responseType: 'json'
@@ -117,24 +133,41 @@ export class GitlabService {
   getGroups(): Observable<Group[]> {
     var params = new HttpParams().set("per_page", "100").set("all_available", "true");
 
-    return this.httpClient.get(this.url + '/groups' , {
+    return this.httpClient.get<Group[]>(this.url + '/groups' , {
       headers: this.getHeaders(),
       params: params,
       responseType: 'json'
     });
 
+  }
+
+  getIssuePage(i) {
+    var params = new HttpParams().set("per_page", "100").set("page", i);
+
+    return this.httpClient.get<Issue[]>(this.url + '/issues' , {
+      headers: this.getHeaders(),
+      params: params,
+      responseType: 'json'
+    });
   }
 
   getIssues(): Observable<Issue[]> {
-    var params = new HttpParams().set("per_page", "200");
+    let params = new HttpParams().set("per_page", "100");
 
-    return this.httpClient.get(this.url + '/issues' , {
+    let result = this.httpClient.request(new HttpRequest("GET", this.url + '/issues' , {
       headers: this.getHeaders(),
       params: params,
       responseType: 'json'
-    });
+    }));
 
+    return result.last()
+      .map(event => Number((event as HttpResponse<Issue[]>).headers.get("X-Total-Pages")))
+      .map(this.createRangeList)
+      .mergeMap(page_list => page_list.map(i => this.getIssuePage(i+1)))
+      .concatAll()
+      .reduce((collected, next_list) => collected.concat(next_list), []);
   }
+
 
   getIssue(id: number | string) {
     return this.getIssues()
@@ -149,7 +182,7 @@ export class GitlabService {
   }
 
   getProjectLabels(id: number | string): Observable<ProjectLabel[]> {
-    return this.httpClient.get(`${this.url}/projects/${id}/labels` , {
+    return this.httpClient.get<ProjectLabel[]>(`${this.url}/projects/${id}/labels` , {
       headers: this.getHeaders(),
       responseType: 'json'
     });
@@ -190,12 +223,28 @@ export class GitlabService {
     );
   }
 
+  createIssueComment(issue: Issue, comment: string): Observable<any> {
+    return this.httpClient.post(`${this.url}/projects/${issue.project_id}/issues/${issue.iid}/notes`,
+      {
+        body: comment,
+      },
+      {
+        headers: this.getHeaders(),
+        responseType:'json'
+      }
+    );
+  }
 
   getCurrentUser(): Observable<User> {
-    return this.httpClient.get(this.url + '/user' , {
-      headers: this.getHeaders(),
-      responseType: 'json'
-    });
+    if(this.currentUser == null) {
+      return this.httpClient.get<User>(this.url + '/user' , {
+        headers: this.getHeaders(),
+        responseType: 'json'
+      });
+    }
+    else {
+      return Observable.of(this.currentUser);
+    }
   }
 
   private getHeaders() {
@@ -203,6 +252,15 @@ export class GitlabService {
       "Authorization": "Bearer " + this.oauthService.getAccessToken()
     });
 
+  }
+
+  private createRangeList(count: number): number[] {
+    let page_list = [];
+    for(let i = 0; i<count; i++)
+    {
+      page_list.push(i);
+    }
+    return page_list;
   }
 
 }

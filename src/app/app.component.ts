@@ -1,6 +1,3 @@
-/**
- * Angular 2 decorators and services
- */
 import { authConfig } from './auth.config';
 import {
   Component,
@@ -9,35 +6,22 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
-import { AppState } from './app.service';
 import { User, GitlabService } from './services/gitlab.service';
 import {
   OAuthService,
   JwksValidationHandler
 } from 'angular-oauth2-oidc';
 
-
-
-/**
- * App Component
- * Top Level Component
- */
 @Component({
-  selector: 'app',
-  encapsulation: ViewEncapsulation.None,
-  styleUrls: [
-    './app.component.css'
-  ],
-  templateUrl: './app.component.html'
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.sass']
 })
-export class AppComponent implements OnInit {
-  public angularclassLogo = 'assets/img/angularclass-avatar.png';
-  public name = 'Gitlab Eisenhower Matrix';
+export class AppComponent {
 
   public user:User;
 
   constructor(
-    public appState: AppState,
     private oauthService: OAuthService,
     private httpClient: HttpClient,
     private gitlabService: GitlabService,
@@ -77,12 +61,6 @@ export class AppComponent implements OnInit {
     this.oauthService.logOut();
     this.user = null;
     this.router.navigate(['/']);
-  }
-
-
-
-  public ngOnInit() {
-    console.log('Initial App State', this.appState.state);
   }
 
 }

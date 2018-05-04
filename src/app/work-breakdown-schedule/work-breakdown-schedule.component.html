@@ -2,7 +2,23 @@
 
   <div class="col-12">
     <h2>Work Breakdown Schedule</h2>
-    <div id="wbs-diagram" style="width: 100%" (window:resize)="onResize($event)"></div>
+    <hr>
+    <div id="wbs-diagram" style="width: 100%">
+      <div class="wbs-group" *ngFor="let group of wbsData">
+        <p>{{group.prefix}} {{group.name}}</p>
+        <ol>
+          <li class="wbs-project" *ngFor="let project of group.projects">
+            <p>{{project.prefix}} {{project.name}}</p>
+            <ol>
+              <li class="wbs-milestone" *ngFor="let milestone of project.milestones">
+                <p>{{milestone.prefix}} {{milestone.name}}</p>
+              </li>
+            </ol>
+          </li>
+        </ol>
+      </div>
+    </div>
+
   </div>
 
 </div>

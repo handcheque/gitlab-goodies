@@ -1,5 +1,17 @@
 work-breakdown-schedule {
 
+  #wbs-diagram {
+    display: flex;
+
+    .wbs-group {
+      flex-grow: 1;
+    }
+
+    ol {
+      list-style-type: none;
+    }
+  }
+
   .node circle {
     fill: #999;
   }

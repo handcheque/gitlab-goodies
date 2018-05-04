@@ -1,39 +1,45 @@
-.git
-.github
-.vscode
-coverage
+# compiled output
+/dist
+/dist-server
+/tmp
+/out-tsc
 
-# OS generated files #
+# dependencies
+/node_modules
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+yarn-error.log
+testem.log
+/typings
+
+# e2e
+/e2e/*.js
+/e2e/*.map
+
+# System Files
 .DS_Store
-ehthumbs.db
-Icon?
 Thumbs.db
 
-# Node Files #
-node_modules
-npm-debug.log
-npm-debug.log.*
-
-# Typing #
-src/typings/tsd
-typings
-tsd_typings
-
-# Dist #
-dist
-.awcache
-.webpack.json
-compiled
-dll
-
-# IDE #
-.idea
-*.swp
-
-
-# Angular #
-*.ngfactory.ts
-*.css.shim.ts
-*.ngsummary.json
-*.shim.ngstyle.ts
-
+.env
+src/environments/environment.*.ts

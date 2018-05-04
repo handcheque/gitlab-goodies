@@ -1,0 +1,89 @@
+<div class="row justify-content-center mt-5">
+
+  <div class="col-12">
+    <h2>Time Tracking</h2>
+    <hr>
+    <div class="row" id="current-open-issue" *ngIf="current_open_issue">
+      <div class="col-6">
+        <div class="row">
+          <div class="col-6 label">
+            Project:
+          </div>
+          <div class="col-6 value">
+            {{current_open_issue.project.name}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6 label">
+            Issue:
+          </div>
+          <div class="col-6 value">
+            {{current_open_issue.title}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6 label">
+            Time:
+          </div>
+          <div class="col-6 value">
+            {{getCurrentWorktime()}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6 label">
+          </div>
+          <div class="col-6 value">
+            <button class="btn btn-default">
+              Stop &amp; Save
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" id="current-open-issue" *ngIf="!current_open_issue">
+      <div class="col-6">
+        <div class="row">
+          <div class="col-6 label">
+            Project:
+          </div>
+          <div class="col-6 value">
+            <!--select [(ngModel)]="next_issue.project_id">
+              <option value="{{project.id}}" *ngFor="let project of time_tracking_data.projects">
+                {{project.name}}
+              </option>
+            </select-->
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6 label">
+            Issue:
+          </div>
+          <div class="col-6 value">
+            <!--select [(ngModel)]="next_issue.issue_id">
+              <option value="{{issue.id}}" *ngFor="let issue of time_tracking_data.issues">
+                {{issue.title}}
+              </option>
+            </select-->
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6 label">
+            Time:
+          </div>
+          <div class="col-6 value">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6 label">
+          </div>
+          <div class="col-6 value">
+            <button class="btn btn-default">
+              Start
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
