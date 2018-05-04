@@ -5,13 +5,24 @@
     <hr>
     <div id="wbs-diagram" style="width: 100%">
       <div class="wbs-group" *ngFor="let group of wbsData">
-        <p>{{group.prefix}} {{group.name}}</p>
+        <h3 class="title">
+          <a [href]="group.url" target="_blank">
+            {{group.prefix}} {{group.name}}
+          </a>
+        </h3>
         <ol>
           <li class="wbs-project" *ngFor="let project of group.projects">
-            <p>{{project.prefix}} {{project.name}}</p>
+            <a [href]="project.url" target="_blank">
+              <p class="title">{{project.prefix}} {{project.name}}</p>
+            </a>
             <ol>
               <li class="wbs-milestone" *ngFor="let milestone of project.milestones">
-                <p>{{milestone.prefix}} {{milestone.name}}</p>
+                <a [href]="milestone.url" target="_blank">
+                  <p class="title">{{milestone.prefix}} {{milestone.name}}</p>
+                  <p>
+                    <span class="badge badge-secondary">not started</span>
+                  </p>
+                </a>
               </li>
             </ol>
           </li>

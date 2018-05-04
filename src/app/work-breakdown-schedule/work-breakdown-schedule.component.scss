@@ -3,36 +3,52 @@ work-breakdown-schedule {
   #wbs-diagram {
     display: flex;
 
+    a {
+      color: inherit;
+    }
+
     .wbs-group {
+      border-left: 2px solid white;
       flex-grow: 1;
+      padding: 0.2em;
+
+      h3 {
+        font-size: 1.2em;
+        white-space: nowrap;
+      }
+
+      ol {
+        list-style-type: none;
+        padding-left: 0.5em;
+
+        li.wbs-project {
+          background-color: #F9F9F9;
+        }
+        li.wbs-project:nth-child(2n) {
+          background-color: #EEEEEE;
+        }
+
+        li.wbs-milestone {
+          border: 1px solid #CCCCCC;
+          border-radius: 0.2em;
+          margin-bottom: 0.3rem;
+        }
+
+
+        li {
+          font-size: 0.9em;
+          margin-bottom: 0.5rem;
+          padding: 0.2em;
+
+          p {
+            margin-bottom: 0;
+          }
+          p.title {
+            white-space: nowrap;
+          }
+        }
+      }
     }
 
-    ol {
-      list-style-type: none;
-    }
-  }
-
-  .node circle {
-    fill: #999;
-  }
-
-
-  .node text {
-    font: 10px sans-serif;
-  }
-
-  .node--internal circle {
-    fill: #555;
-  }
-
-  .node--internal text {
-    text-shadow: 0 1px 0 #fff, 0 -1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff;
-  }
-
-  .link {
-    fill: none;
-    stroke: #555;
-    stroke-opacity: 0.4;
-    stroke-width: 1.5px;
   }
 }
