@@ -101,9 +101,11 @@ export class TimeTrackingComponent implements OnInit {
     this.storage.set(STORAGE_KEY, this.active_tracker_data);
   }
 
-  public stopTracking() {
-    console.log(this.active_tracker_data);
-
+  public async stopTracking() {
+    if(!this.active_tracker_data.custom_start_time) {
+      this.active_tracker_data.end_time = moment().format("HH:mm");
+      this.active_tracker_data.end_date = moment().format("YYYY-MM-DD");
+    }
     let comment_body = "###### Time Log\n\n";
     comment_body += "```yaml\n";
     comment_body += "timelog:\n";
@@ -112,7 +114,7 @@ export class TimeTrackingComponent implements OnInit {
     comment_body += `  note: ""\n`;
     comment_body += "```\n";
 
-    this.gitlab.createIssueComment(this.getCurrentIssue(), comment_body);
+    let result = await this.gitlab.createIssueComment(this.getCurrentIssue(), comment_body).first().toPromise();
 
     this.currently_tracking = false;
     this.storage.remove(STORAGE_KEY);
