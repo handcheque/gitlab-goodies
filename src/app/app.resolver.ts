@@ -6,7 +6,7 @@ import 'rxjs/add/observable/of';
 import { GitlabService, User, Issue, Group, Project, Milestone } from './services/gitlab.service';
 
 @Injectable()
-export class UserResolver implements Resolve<any> {
+export class UserResolver implements Resolve<User> {
   constructor(private gitlab: GitlabService) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<User> {

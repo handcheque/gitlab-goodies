@@ -40,7 +40,8 @@ const routes: Routes = [
     component: TimeTrackingComponent,
     resolve: {
       projects: ProjectsResolver,
-      issues: IssuesResolver
+      issues: IssuesResolver,
+      user: UserResolver
     }
   },
 
