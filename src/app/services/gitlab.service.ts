@@ -141,8 +141,8 @@ export class GitlabService {
 
   }
 
-  getIssuePage(i) {
-    var params = new HttpParams().set("per_page", "100").set("page", i);
+  getIssuePage(i, scope) {
+    var params = new HttpParams().set("per_page", "100").set("page", i).set("scope", scope);
 
     return this.httpClient.get<Issue[]>(this.url + '/issues' , {
       headers: this.getHeaders(),
@@ -151,8 +151,14 @@ export class GitlabService {
     });
   }
 
-  getIssues(): Observable<Issue[]> {
-    let params = new HttpParams().set("per_page", "100");
+  getIssues(scope?: string): Observable<Issue[]> {
+    if(scope == undefined)
+    {
+      scope = "all";
+    }
+    let params = new HttpParams()
+      .set("per_page", "100")
+      .set("scope", scope);
 
     let result = this.httpClient.request(new HttpRequest("GET", this.url + '/issues' , {
       headers: this.getHeaders(),
@@ -163,7 +169,7 @@ export class GitlabService {
     return result.last()
       .map(event => Number((event as HttpResponse<Issue[]>).headers.get("X-Total-Pages")))
       .map(this.createRangeList)
-      .mergeMap(page_list => page_list.map(i => this.getIssuePage(i+1)))
+      .mergeMap(page_list => page_list.map(i => this.getIssuePage(i+1, scope)))
       .concatAll()
       .reduce((collected, next_list) => collected.concat(next_list), []);
   }
@@ -210,7 +216,6 @@ export class GitlabService {
 
 
   updateIssue(issue: Issue) {
-    console.log("Updating issue");
     return this.httpClient.put(`${this.url}/projects/${issue.project_id}/issues/${issue.iid}`,
       {
         id: issue.id,
