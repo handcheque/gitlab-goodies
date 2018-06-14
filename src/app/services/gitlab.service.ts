@@ -37,19 +37,15 @@ export class Issue {
     public project_id: number,
     public title: string,
     public labels: string[],
-    public milestone?: {
-      id: number,
-    },
-    public assignee?: {
-      name: string,
-      username: string
-    },
+    public assignees: User[],
+    public milestone?: Milestone,
+    public assignee?: User,
     public state?: string
   ) { }
 }
 
 export class User {
-  constructor(public id: number, public username: string, public labels: string[]) { }
+  constructor(public id: number, public name: string, public username: string, public labels?: string[]) { }
 }
 
 export class Project {
@@ -67,6 +63,10 @@ export class Project {
 export class Milestone {
   constructor(
     public id: number,
+    public start_date: string,
+    public due_date: string,
+    public title: string,
+    public description: string
   ) { }
 }
 

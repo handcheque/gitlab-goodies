@@ -4,23 +4,27 @@
     <h2>Work Breakdown Schedule</h2>
     <hr>
     <div id="wbs-diagram" style="width: 100%">
-      <div class="wbs-group" *ngFor="let group of wbsData">
+      <div class="wbs-group" *ngFor="let group of wbsData; let i = index">
         <h3 class="title">
           <a [href]="group.url" target="_blank">
-            {{group.prefix}} {{group.name}}
+            {{i+1}} {{group.name}}
           </a>
         </h3>
         <ol>
-          <li class="wbs-project" *ngFor="let project of group.projects">
+          <li class="wbs-project" *ngFor="let project of group.projects; let j = index">
             <a [href]="project.url" target="_blank">
-              <p class="title">{{project.prefix}} {{project.name}}</p>
+              <p class="title">{{i+1}}.{{j+1 | number:'2.0-0'}} {{project.name}}</p>
             </a>
             <ol>
-              <li class="wbs-milestone" *ngFor="let milestone of project.milestones">
+              <li class="wbs-milestone" *ngFor="let milestone of project.milestones; let k = index">
                 <a [href]="milestone.url" target="_blank">
-                  <p class="title">{{milestone.prefix}} {{milestone.name}}</p>
+                  <p class="title">{{i+1}}.{{j+1}}.{{k+1}} {{milestone.name}}</p>
+                  <p>{{milestone.start_date}} - {{milestone.due_date}}</p>
                   <p>
-                    <span class="badge badge-secondary">not started</span>
+                    <span class="badge badge-warning" *ngIf="milestone.status.alertStatus == 'warning'">⚠️</span>
+                    <span class="badge badge-danger" *ngIf="milestone.status.alertStatus == 'alarm'">⚡</span>
+                    <span class="badge badge-info">{{milestone.status.progressStatus}}</span>
+                    <span class="pull-right">{{milestone.status.percentageCompleted | number:'1.0-0'}} % complete</span>
                   </p>
                 </a>
               </li>
