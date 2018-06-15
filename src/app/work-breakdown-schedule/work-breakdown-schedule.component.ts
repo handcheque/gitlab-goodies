@@ -66,6 +66,17 @@ export class WorkBreakdownScheduleComponent implements OnInit {
                     };
 
                   })
+                  .sort((milestone1, milestone2) => {
+                    if(milestone1.start_date > milestone2.start_date)
+                    {
+                      return 1;
+                    }
+                    if(milestone1.start_date < milestone2.start_date)
+                    {
+                      return -1;
+                    }
+                    return 0;
+                  })
                 }
             }).sort((project1, project2) => {
               if(project1.name > project2.name)
