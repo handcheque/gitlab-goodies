@@ -47,7 +47,7 @@ export class WorkBreakdownScheduleComponent implements OnInit {
           "name": group.name,
           "url": group.web_url,
           "projects": data_raw.projects
-            .filter(project => project.namespace.full_path.startsWith(`handcheque/${group.path}`))
+            .filter(project => project.namespace.full_path.startsWith(`handcheque/${group.path}`) && project.tag_list.indexOf("wbs-ignore") < 0)
             .map(project => {
               return {
                 "id": project.id,
