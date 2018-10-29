@@ -228,6 +228,19 @@ export class GitlabService {
     );
   }
 
+  spendTime(issue: Issue, human_time: String) {
+      return this.httpClient.post(`${this.url}/projects/${issue.project_id}/issues/${issue.iid}/add_spent_time`,
+      {
+        duration: human_time
+      },
+      {
+        headers: this.getHeaders(),
+        responseType: 'json',
+      }
+    );
+
+  }
+
   createIssueComment(issue: Issue, comment: string): Observable<any> {
     return this.httpClient.post(`${this.url}/projects/${issue.project_id}/issues/${issue.iid}/notes`,
       {

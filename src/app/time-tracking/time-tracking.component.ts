@@ -102,7 +102,7 @@ export class TimeTrackingComponent implements OnInit {
   }
 
   public async stopTracking() {
-    if(!this.active_tracker_data.custom_start_time) {
+    if(!this.active_tracker_data.custom_end_time) {
       this.active_tracker_data.end_time = moment().format("HH:mm");
       this.active_tracker_data.end_date = moment().format("YYYY-MM-DD");
     }
@@ -114,7 +114,11 @@ export class TimeTrackingComponent implements OnInit {
     comment_body += `  note: ""\n`;
     comment_body += "```\n";
 
-    let result = await this.gitlab.createIssueComment(this.getCurrentIssue(), comment_body).first().toPromise();
+    let start_moment = moment(`${this.active_tracker_data.start_date}T${this.active_tracker_data.start_time}`);
+    let end_moment = moment(`${this.active_tracker_data.end_date}T${this.active_tracker_data.end_time}`);
+
+    let spend_result = await this.gitlab.spendTime(this.getCurrentIssue(), `${end_moment.diff(start_moment, 'minutes')}m`).first().toPromise();
+    //let result = await this.gitlab.createIssueComment(this.getCurrentIssue(), comment_body).first().toPromise();
 
     this.currently_tracking = false;
     this.storage.remove(STORAGE_KEY);
